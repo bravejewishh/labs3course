@@ -47,7 +47,7 @@ count = 0
 def counter():
     global count 
     count += 1 
-    time = datetime.datetime.today()
+    time = datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S")
     url = request.url
     client_ip = request.remote_addr
     return '''
@@ -58,7 +58,7 @@ def counter():
         <hr>
         дата и время: ''' + time + '''<br>
         запршенный адрес: ''' + url + '''<br>
-        ваш ip-адрес: ''' + client_ip + '''
+        ваш ip-адрес: ''' + client_ip + '''<br>
     </body>
 </html>
 '''
