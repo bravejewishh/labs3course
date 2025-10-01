@@ -38,16 +38,26 @@ def author():
 @app.route ('/image')
 def image():
     path = url_for("static", filename="oak.jpg")
-    return '''
+    css_path = url_for("static", filename="lab1.css")
+    return f'''
 <!doctype html>
 <html>
+    <head>
+        <link rel="stylesheet" href="{css_path}">
+    </head>
     <body>
         <h1>дуб</h1>
-        <img src="'''+ path + '''">
+        <img src="{path}">
     </body>
 </html>
 '''
 count = 0
+
+@app.route('/clear_counter')
+def clear_counter():
+    global count
+    count = 0
+    return redirect('/counter')
 
 @app.route('/counter')
 def counter():
@@ -65,6 +75,7 @@ def counter():
         дата и время: ''' + time + '''<br>
         запршенный адрес: ''' + url + '''<br>
         ваш ip-адрес: ''' + client_ip + '''<br>
+        <a href="/clear_counter">очистить счетчик</a><br>
     </body>
 </html>
 '''
