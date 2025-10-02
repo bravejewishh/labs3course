@@ -6,6 +6,40 @@ app = Flask (__name__)
 def not_found(err):
     return "нет такой страницы((((", 404
 
+@app.errorhandler(400)
+def bad_request(err):
+    return "неправильный запрос((((", 400
+
+@app.errorhandler(401)
+def unauthorized(err):
+    return "требуется авторизация((((", 401
+
+
+@app.errorhandler(403)
+def forbidden(err):
+    return "доступ запрещен((((", 403
+
+@app.errorhandler(405)
+def method_not_allowed(err):
+    return "метод не разрешен((((", 405
+
+
+class PaymentRequired(Exception):
+    code = 402
+    description = 'требуется оплата(((('
+
+class Teapot(Exception):
+    code = 418
+    description = 'я чайник!(((('
+
+@app.errorhandler(PaymentRequired)
+def payment_required(err):
+    return err.description, err.code
+
+@app.errorhandler(Teapot)
+def teapot(err):
+    return err.description, err.code
+
 @app.route("/")
 @app.route("/index")
 def index():
