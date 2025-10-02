@@ -145,6 +145,19 @@ def lab1():
             зовые возможности.
         </p>
         <a href="/">На главную</a>
+        <h2>Список роутов</h2>
+        <ul>
+            <li><a href="/">Главная страница (/)</a></li>
+            <li><a href="/index">Главная страница (/index)</a></li>
+            <li><a href="/lab1/web">Web-сервер</a></li>
+            <li><a href="/lab1/author">Информация об авторе</a></li>
+            <li><a href="/lab1/image">Изображение дуба</a></li>
+            <li><a href="/lab1/counter">Счетчик посещений</a></li>
+            <li><a href="/clear_counter">Очистка счетчика</a></li>
+            <li><a href="/test_500">Тест ошибки 500</a></li>
+            <li><a href="/test_500_2">Тест ошибки 500 (вариант 2)</a></li>
+        </ul>
+
     </body>
 </html>"""
 
