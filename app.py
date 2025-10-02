@@ -2,9 +2,73 @@ from flask import Flask, url_for, request, redirect
 import datetime
 app = Flask (__name__)
 
+@app.errorhandler(500)
+def internal_server_error(err):
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>Ошибка сервера</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 50px;
+                background-color: #f8f9fa;
+            }
+            h1 {
+                color: #dc3545;
+            }
+            .error-box {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                display: inline-block;
+                margin: 20px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="error-box">
+            <h1>500 - Внутренняя ошибка сервера</h1>
+            <p>На сервере произошла непредвиденная ошибка.</p>
+            <p>Мы уже работаем над устранением проблемы.</p>
+            <a href="/">Вернуться на главную</a>
+        </div>
+    </body>
+</html>''', 500
+
+@app.route('/test_500')
+def test_500():
+    x = 1 / 0
+    return "Этот код никогда не выполнится"
+
+@app.route('/test_500_2')
+def test_500_2():
+    x = 5 + "строка"
+    return "Этот код тоже никогда не выполнится"
+
 @app.errorhandler(404)
 def not_found(err):
-    return "нет такой страницы((((", 404
+    css_path = url_for("static", filename="404.css")
+    image_path = url_for("static", filename="404.jpg")
+    
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>страница не найдена</title>
+        <link rel="stylesheet" href="''' + css_path + '''">
+    </head>
+    <body>
+        <h1>404</h1>
+        <p>страница не найдена :((</p>
+        <img src="''' + image_path + '''">
+        <br>
+        <a href="/">На главную</a>
+    </body>
+</html>''', 404
 
 @app.errorhandler(400)
 def bad_request(err):
