@@ -263,3 +263,12 @@ def created():
 </html>
 ''', 201
 
+@app.route('/lab2/a/')
+def a():
+    return 'со слэшем'
+
+@app.route('/lab2/a')
+def a2():
+    return 'без слэша'
+
+
