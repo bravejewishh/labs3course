@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, redirect
+from flask import Flask, url_for, request, redirect, make_response
 import datetime
 app = Flask (__name__)
 
@@ -179,20 +179,33 @@ def author():
 
 @app.route ('/lab1/image')
 def image():
-    path = url_for("static", filename="oak.jpg")
+    image_path = url_for("static", filename="oak.jpg")
     css_path = url_for("static", filename="lab1.css")
-    return f'''
+    
+    response = '''
 <!doctype html>
 <html>
     <head>
-        <link rel="stylesheet" href="{css_path}">
+        <link rel="stylesheet" href="''' + css_path + '''">
     </head>
     <body>
-        <h1>дуб</h1>
-        <img src="{path}">
+        <h1>Дуб</h1>
+        <img src="''' + image_path + '''">
+        <br>
     </body>
-</html>
-'''
+</html>'''
+
+    resp = make_response(response)
+    
+    resp.headers['Content-Language'] = 'ru'
+    
+    resp.headers['X-Student-Name'] = 'Penkova Polina'
+    resp.headers['X-University'] = 'NSTU'
+    resp.headers['X-Lab-Number'] = '1'
+    
+    return resp
+
+
 count = 0
 
 @app.route('/clear_counter')
