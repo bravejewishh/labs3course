@@ -273,12 +273,9 @@ def a2():
 
 flower_list = ['подсолнух', 'ромашка', 'мак', 'ландыш', 'ирис']
 
-@app.route('/lab2/flowers/<int:flower_id>')
-def flowers(flower_id):
-    if flower_id >= len(flower_list):
-        abort(404)
-    else:
-        return "цветок:" + flower_list[flower_id]
+@app.route('/lab2/add_flower/')
+def add_flower_no_name():
+    abort(400, description="вы не задали имя цветка")
     
 @app.route('/lab2/add_flower/<name>')
 def add_flower(name):
@@ -291,9 +288,49 @@ def add_flower(name):
     <p>название нового цветка: {name} </p>
     <p>всего цветов: {flower_list}</p>
     </body>
-</html>
+</html>'''
 
-'''
+@app.route('/lab2/flowers/')
+def show_all_flowers():
+    return f'''
+<!doctype html>
+<html>
+    <body>
+    <h1>все цветы</h1>
+    <p>количество цветов: {len(flower_list)}</p>
+    <p>список цветов: {flower_list}</p>
+    <a href="/lab2/clear_flowers/">очистить список цветов</a>
+    </body>
+</html>'''
+
+@app.route('/lab2/flowers/<int:flower_id>')
+def flowers(flower_id):
+    if flower_id >= len(flower_list):
+        abort(404)
+    else:
+        return f'''
+<!doctype html>
+<html>
+    <body>
+    <h1>информация о цветке</h1>
+    <p>цветок: {flower_list[flower_id]}</p>
+    <a href="/lab2/flowers/">посмотреть все цветы</a>
+    </body>
+</html>'''
+    
+@app.route('/lab2/clear_flowers/')
+def clear_flowers():
+    flower_list.clear()
+    return '''
+<!doctype html>
+<html>
+    <body>
+    <h1>список цветов очищен</h1>
+    <p>все цветы были удалены из списка.</p>
+    <a href="/lab2/flowers/">Перейти к списку всех цветов</a>
+    </body>
+</html>'''
+
 @app.route('/lab2/example')
 def example():
     name  = 'Пенькова Полина'
