@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список книг</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Список книг</h1>
+        
+        <table class="books-table">
+            <thead>
+                <tr>
+                    <th>Автор</th>
+                    <th>Название книги</th>
+                    <th>Жанр</th>
+                    <th>Количество страниц</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.genre }}</td>
+                    <td>{{ book.pages }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <p class="total-count">Всего книг в списке: {{ books|length }}</p>
+    </div>
+</body>
+</html>

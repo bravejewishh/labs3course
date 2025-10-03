@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Породы собак</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <h1>Породы собак</h1>
+    
+    {% for dog in dogs %}
+    <div>
+        <img src="{{ url_for('static', filename='images/dogs/' + dog.image) }}" 
+             alt="{{ dog.name }}" 
+             width="200">
+        <h3>{{ dog.name }}</h3>
+        <p>{{ dog.description }}</p>
+    </div>
+    {% endfor %}
+</body>
+</html>
