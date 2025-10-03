@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+    background-color: rgb(206, 182, 239);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgb(88, 29, 147);
+}
+
+main {
+    margin-bottom: 40px;
+    padding: 10px;
+}
+
+header {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: rgb(249, 192, 236);
+    color: rgb(229, 126, 70);
+}
+
+footer {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: rgb(249, 192, 236);
+    color: rgb(229, 126, 70);
+    text-align: right;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

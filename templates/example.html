@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пенькова Полина. {{ lab }}</title>
+    <title>
+        {% if name %}
+            {{ name }}, 
+        {% else %}
+            анонимус,
+        {% endif %} 
+        {{ lab }}
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
     <header>
-        WEB-программирование, часть 2. {{ lab }}
+        WEB-программирование, часть 2. {% if lab %}Лабораторная работа 2{% endif %}
     </header>
 
     <main>
@@ -16,11 +24,32 @@
         3258 - 759 = {{ 3258-759 }}<br>
         8452/793 = {{ 8452/793 }}<br>
         45<sup>8</sup> = {{ 45**8 }}<br>
+        <ul>
+            {% for f in fruits %}
+            <li>{{ f.name }}: {{ f.price }} <span>&#8381;</span></li>
+            {% endfor %}
+        </ul>
 
     </main>
 
     <footer>
-        &copy; {{ name }}, {{ group }}, {{ course }}, 2025
+        &copy; 
+        {% if name %}
+            {{ name }}, 
+        {% else %}
+            анонимус,
+        {% endif %}
+        {% if group %} 
+            {{ group }}, 
+        {% else %}
+            нет группы
+        {% endif %}
+        {%if course%}
+            {{ course }}, 
+        {% else %}
+            курса тоже нет,
+        {% endif %}
+        2025
     </footer>
 </body>
 </html>
