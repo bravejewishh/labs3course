@@ -9,10 +9,10 @@
     
     {% for dog in dogs %}
     <div>
-        <img src="{{ url_for('static', filename='images/dogs/' + dog.image) }}" 
+        <h3>{{ dog.name }}</h3>
+        <img src="{{ url_for('static', filename='images/' + dog.image) }}" 
              alt="{{ dog.name }}" 
              width="200">
-        <h3>{{ dog.name }}</h3>
         <p>{{ dog.description }}</p>
     </div>
     {% endfor %}

@@ -1,6 +1,9 @@
 from flask import Flask, url_for, request, redirect, make_response, abort, render_template
 import datetime
+from lab1 import lab1
+
 app = Flask (__name__)
+app.register_blueprint(lab1)
 
 @app.errorhandler(500)
 def internal_server_error(err):
@@ -119,6 +122,7 @@ def index():
         <main>
             <ul>
                 <li><a href="/lab1">Первая лабораторная</a></li>
+                <li><a href="/lab2">Вторая лабораторная</a></li>
             </ul>
         </main>
         <footer>
@@ -126,142 +130,6 @@ def index():
         </footer>
     </body>
 </html>"""
-
-@app.route("/lab1")
-def lab1():
-    return """<!doctype html>
-<html>
-    <head>
-        <title>Лабораторная 1</title>
-    </head>
-    <body>
-        <h1>Лабораторная 1</h1>
-        <p>
-            Flask — фреймворк для создания веб-приложений на языке
-            программирования Python, использующий набор инструментов
-            Werkzeug, а также шаблонизатор Jinja2. Относится к категории так
-            называемых микрофреймворков — минималистичных каркасов
-            веб-приложений, сознательно предоставляющих лишь самые ба-
-            зовые возможности.
-        </p>
-        <a href="/">На главную</a>
-        <h2>Список роутов</h2>
-        <ul>
-            <li><a href="/">Главная страница (/)</a></li>
-            <li><a href="/index">Главная страница (/index)</a></li>
-            <li><a href="/lab1/web">Web-сервер</a></li>
-            <li><a href="/lab1/author">Информация об авторе</a></li>
-            <li><a href="/lab1/image">Изображение дуба</a></li>
-            <li><a href="/lab1/counter">Счетчик посещений</a></li>
-            <li><a href="/clear_counter">Очистка счетчика</a></li>
-            <li><a href="/test_500">Тест ошибки 500</a></li>
-            <li><a href="/test_500_2">Тест ошибки 500 (вариант 2)</a></li>
-        </ul>
-
-    </body>
-</html>"""
-
-@app.route ("/")
-@app.route ("/lab1/web")
-def web():
-    return """<!doctype html>
-        <html>
-            <body>
-               <h1>web-сервер на flask</h1> 
-               <a href="/author">author</a>
-           </body>
-        </html>""", 200, {
-            "X-Server": "sample", 
-            'Content-Type': 'text/plain; charset=utf-8'}
-
-@app.route ("/lab1/author")
-def author():
-    name = "пенькова полина александровна"
-    group = "ФБИ-34"
-    faculity = "ФБ"
-
-    return """ <!doctype html>
-        <html>
-            <body>
-                <p>студент: """ + name + """</p>
-                <p>группа: """ + group + """</p>
-                <p>факультет: """ + faculity + """</p>
-                <a href="/web">web</a>
-            </body>
-        </html>"""
-
-@app.route ('/lab1/image')
-def image():
-    image_path = url_for("static", filename="oak.jpg")
-    css_path = url_for("static", filename="lab1.css")
-    
-    response = '''
-<!doctype html>
-<html>
-    <head>
-        <link rel="stylesheet" href="''' + css_path + '''">
-    </head>
-    <body>
-        <h1>Дуб</h1>
-        <img src="''' + image_path + '''">
-        <br>
-    </body>
-</html>'''
-
-    resp = make_response(response)
-    
-    resp.headers['Content-Language'] = 'ru'
-    
-    resp.headers['X-Student-Name'] = 'Penkova Polina'
-    resp.headers['X-University'] = 'NSTU'
-    resp.headers['X-Lab-Number'] = '1'
-    
-    return resp
-
-
-count = 0
-
-@app.route('/clear_counter')
-def clear_counter():
-    global count
-    count = 0
-    return redirect('/counter')
-
-@app.route('/lab1/counter')
-def counter():
-    global count 
-    count += 1 
-    time = datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S")
-    url = request.url
-    client_ip = request.remote_addr
-    return '''
-<!doctype html>
-<html>
-    <body>
-        сколько раз вы сюда заходили: ''' + str(count) + '''
-        <hr>
-        дата и время: ''' + time + '''<br>
-        запршенный адрес: ''' + url + '''<br>
-        ваш ip-адрес: ''' + client_ip + '''<br>
-        <a href="/clear_counter">очистить счетчик</a><br>
-    </body>
-</html>
-'''
-@app.route("/lab1/info")
-def info():
-    return redirect("/author")
-
-@app.route("/lab1/created")
-def created():
-    return '''
-<!doctype html>
-<html>
-    <body>
-        <h1>создано успешно</h1>
-        <div><i>что-то создано..</i></div>
-    </body>
-</html>
-''', 201
 
 @app.route('/lab2/a/')
 def a():
@@ -507,3 +375,60 @@ dogs = [
 @app.route('/lab2/dogs/')
 def show_dogs():
     return render_template('dogs.html', dogs=dogs)
+
+@app.route('/lab2/index')
+def lab2_index():
+    return '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Лабораторная работа 2</title>
+    </head>
+    <body>
+        <nav>
+            <a href="/index">Главное меню</a>
+        </nav>
+        
+        <h1>Лабораторная работа 2</h1>
+        
+        <h2>Все ссылки лабораторной работы:</h2>
+        
+        <h3>Примеры и тесты:</h3>
+        <ul>
+            <li><a href="/lab2/a/">Со слэшем</a></li>
+            <li><a href="/lab2/a">Без слэша</a></li>
+            <li><a href="/lab2/example">Пример с фруктами</a></li>
+            <li><a href="/lab2/filters">Фильтры</a></li>
+        </ul>
+        
+        <h3>Цветы:</h3>
+        <ul>
+            <li><a href="/lab2/add_flower/">Добавить цветок (ошибка 400)</a></li>
+            <li><a href="/lab2/add_flower/Роза">Добавить цветок "Роза"</a></li>
+            <li><a href="/lab2/flowers/">Показать все цветы</a></li>
+            <li><a href="/lab2/flowers/0">Цветок с ID 0</a></li>
+            <li><a href="/lab2/clear_flowers/">Очистить список цветов</a></li>
+        </ul>
+        
+        <h3>Калькулятор:</h3>
+        <ul>
+            <li><a href="/lab2/calc/5">Калькулятор (5/1)</a></li>
+            <li><a href="/lab2/calc/10/3">Калькулятор (10/3)</a></li>
+        </ul>
+        
+        <h3>Книги:</h3>
+        <ul>
+            <li><a href="/lab2/books/">Список книг</a></li>
+        </ul>
+        
+        <h3>Собаки:</h3>
+        <ul>
+            <li><a href="/lab2/dogs/">Породы собак</a></li>
+        </ul>
+    </body>
+    </html>
+    '''
+
+@app.route('/lab2/index')
+def lab2_index2():
+    return render_template('lab2.html')
