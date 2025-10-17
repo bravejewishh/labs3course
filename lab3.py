@@ -64,3 +64,35 @@ def success():
     except ValueError:
         price = 0
     return render_template('lab3/success.html', price=price)
+
+@lab3.route('/lab3/settings')
+def settings():
+    color = request.args.get('color')
+    background = request.args.get('background')
+    font_size = request.args.get('font_size')
+    font_family = request.args.get('font_family')
+
+    if color or background or font_size or font_family:
+        resp = make_response(redirect('/lab3/settings'))
+        if color:
+            resp.set_cookie('color', color)
+        if background:
+            resp.set_cookie('background', background)
+        if font_size:
+            resp.set_cookie('font_size', font_size)
+        if font_family:
+            resp.set_cookie('font_family', font_family)
+        return resp
+
+    color = request.cookies.get('color', '#000000') 
+    background = request.cookies.get('background', '#ffffff')
+    font_size = request.cookies.get('font_size', '16')
+    font_family = request.cookies.get('font_family', 'Arial, sans-serif')
+
+    return render_template(
+        'lab3/settings.html',
+        color=color,
+        background=background,
+        font_size=font_size,
+        font_family=font_family
+    )

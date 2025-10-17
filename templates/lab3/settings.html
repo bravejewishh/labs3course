@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <div class="settings-container">
+        <h1>Настройки внешнего вида</h1>
+
+        <form method="get">
+            <div class="setting-item">
+                <label for="color">Цвет текста:</label>
+                <input type="color" id="color" name="color" value="{{ color }}">
+            </div>
+
+            <div class="setting-item">
+                <label for="background">Цвет фона:</label>
+                <input type="color" id="background" name="background" value="{{ background }}">
+            </div>
+
+            <div class="setting-item">
+                <label for="font_size">Размер шрифта (px):</label>
+                <input type="number" id="font_size" name="font_size" 
+                       value="{{ font_size }}" min="10" max="48">
+            </div>
+
+            <div class="setting-item">
+                <label for="font_family">Шрифт:</label>
+                <select id="font_family" name="font_family">
+                    <option value="Arial, sans-serif" {% if font_family == 'Arial, sans-serif' %}selected{% endif %}>Arial</option>
+                    <option value="'Times New Roman', serif" {% if font_family == "'Times New Roman', serif" %}selected{% endif %}>Times New Roman</option>
+                    <option value="Courier New, monospace" {% if font_family == 'Courier New, monospace' %}selected{% endif %}>Courier New</option>
+                    <option value="Verdana, sans-serif" {% if font_family == 'Verdana, sans-serif' %}selected{% endif %}>Verdana</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">Применить</button>
+            </div>
+        </form>
+
+        <div class="preview" style="
+            color: {{ color }};
+            background-color: {{ background }};
+            font-size: {{ font_size }}px;
+            font-family: {{ font_family }};
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 6px;
+        ">
+            <p>Пример текста с вашими настройками.</p>
+            <p>The quick brown fox jumps over the lazy dog.</p>
+        </div>
+    </div>
+
+    <style>
+        .settings-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .setting-item {
+            margin-bottom: 18px;
+        }
+        .setting-item label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+        .setting-item input[type="color"],
+        .setting-item input[type="number"],
+        .setting-item select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .form-actions button {
+            padding: 10px 24px;
+            font-size: 1em;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .form-actions button:hover {
+            background-color: #1565c0;
+        }
+        .preview {
+            border: 1px solid #ddd;
+        }
+    </style>
+{% endblock %}
