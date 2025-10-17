@@ -248,4 +248,4 @@ def show_dogs():
 
 @lab2.route('/lab2/index')
 def lab2_index():
-    return render_template('menu.html')
+    return render_template('lab2/menu.html')
