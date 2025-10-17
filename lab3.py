@@ -204,3 +204,13 @@ def ticket():
         price=price,
         berth_labels=BERTH_LABELS
     )
+
+@lab3.route('/lab3/clear_settings')
+def clear_settings():
+    resp = make_response(redirect('/lab3/settings'))
+    # Удаляем каждую куку, установленную в настройках
+    resp.set_cookie('color', '', expires=0)
+    resp.set_cookie('background', '', expires=0)
+    resp.set_cookie('font_size', '', expires=0)
+    resp.set_cookie('font_family', '', expires=0)
+    return resp
