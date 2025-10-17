@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <div class="order-container">
+        <h1>Заказ напитка</h1>
+
+        <div class="prices-note">
+            <p><strong>Цены:</strong></p>
+            <ul>
+                <li>Кофе — 120 ₽</li>
+                <li>Чёрный чай — 80 ₽</li>
+                <li>Зелёный чай — 70 ₽</li>
+                <li>Молоко — +30 ₽</li>
+                <li>Сахар — +10 ₽</li>
+            </ul>
+        </div>
+
+        <form action="/lab3/pay" method="get">
+            <fieldset>
+                <legend>Напиток:</legend>
+                <label>
+                    <input type="radio" value="coffee" name="drink" checked> кофе (120 ₽)
+                </label>
+                <label>
+                    <input type="radio" value="black-tea" name="drink"> чёрный чай (80 ₽)
+                </label>
+                <label>
+                    <input type="radio" value="green-tea" name="drink"> зелёный чай (70 ₽)
+                </label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Добавки:</legend>
+                <label>
+                    <input type="checkbox" name="milk"> молоко (+30 ₽)
+                </label>
+                <label>
+                    <input type="checkbox" name="sugar"> сахар (+10 ₽)
+                </label>
+            </fieldset>
+
+            <div class="form-actions">
+                <button type="submit">Заказать</button>
+            </div>
+        </form>
+    </div>
+
+    <style>
+        .order-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .prices-note {
+            background-color: #f5f5f5;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 0.95em;
+            color: #444;
+        }
+        .prices-note ul {
+            margin-top: 8px;
+            padding-left: 20px;
+        }
+        fieldset {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        legend {
+            font-weight: bold;
+            padding: 0 8px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+        }
+        .form-actions {
+            text-align: center;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 24px;
+            font-size: 1em;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+{% endblock %}

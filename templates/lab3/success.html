@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <div class="success-page">
+        <h1>✅ Спасибо!</h1>
+        <p class="message">Ваш заказ оплачен на сумму <strong>{{ price }} рублей</strong>.</p>
+        <p class="delivery">Ожидайте доставку в ближайшее время.</p>
+        <a href="/lab3/order" class="back-link">← Вернуться к заказу</a>
+    </div>
+
+    <style>
+        .success-page {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .success-page h1 {
+            color: #2e7d32;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 1.3em;
+            margin: 20px 0;
+            color: #333;
+        }
+        .delivery {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+        .back-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e0e0e0;
+            color: #333;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .back-link:hover {
+            background-color: #d0d0d0;
+        }
+    </style>
+{% endblock %}
