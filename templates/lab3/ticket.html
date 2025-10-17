@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <div class="ticket">
+        <h1>Железнодорожный билет</h1>
+        {% if is_child %}
+            <div class="badge">ДЕТСКИЙ БИЛЕТ</div>
+        {% endif %}
+        <p><strong>Пассажир:</strong> {{ name }}</p>
+        <p><strong>Маршрут:</strong> {{ departure }} → {{ destination }}</p>
+        <p><strong>Дата поездки:</strong> {{ date }}</p>
+        <p><strong>Полка:</strong> {{ berth_labels[berth] }}</p>
+        <p><strong>Бельё:</strong> {{ 'Да' if bedding else 'Нет' }}</p>
+        <p><strong>Багаж:</strong> {{ 'Да' if luggage else 'Нет' }}</p>
+        <p><strong>Страховка:</strong> {{ 'Да' if insurance else 'Нет' }}</p>
+        <p><strong>Возраст:</strong> {{ age }} лет</p>
+        <p class="price">К оплате: <strong>{{ price }} ₽</strong></p>
+        <a href="/lab3/ticket_form">← Оформить ещё билет</a>
+    </div>
+
+    <style>
+        .ticket {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #1976d2;
+            border-radius: 12px;
+            background-color: #f9f9ff;
+        }
+        .badge {
+            background-color: #ffeb3b;
+            color: #e65100;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+        .price {
+            font-size: 1.4em;
+            color: #d32f2f;
+            margin-top: 20px;
+            text-align: center;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1976d2;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}

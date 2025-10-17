@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Оформление железнодорожного билета</h1>
+
+    <form method="get" action="/lab3/ticket">
+        <div class="field">
+            <label>ФИО пассажира:</label>
+            <input type="text" name="name" value="{{ data.name or '' }}" required>
+            {% if errors.name %}<span class="error">{{ errors.name }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label>Полка:</label>
+            <select name="berth" required>
+                <option value="">— Выберите —</option>
+                <option value="bottom" {% if data.berth == 'bottom' %}selected{% endif %}>Нижняя</option>
+                <option value="top" {% if data.berth == 'top' %}selected{% endif %}>Верхняя</option>
+                <option value="side_top" {% if data.berth == 'side_top' %}selected{% endif %}>Верхняя боковая</option>
+                <option value="side_bottom" {% if data.berth == 'side_bottom' %}selected{% endif %}>Нижняя боковая</option>
+            </select>
+            {% if errors.berth %}<span class="error">{{ errors.berth }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label>
+                <input type="checkbox" name="bedding" {% if data.bedding %}checked{% endif %}>
+                С бельём (+75 ₽)
+            </label>
+        </div>
+
+        <div class="field">
+            <label>
+                <input type="checkbox" name="luggage" {% if data.luggage %}checked{% endif %}>
+                С багажом (+250 ₽)
+            </label>
+        </div>
+
+        <div class="field">
+            <label>Возраст (1–120):</label>
+            <input type="number" name="age" min="1" max="120" value="{{ data.age or '' }}" required>
+            {% if errors.age %}<span class="error">{{ errors.age }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label>Пункт выезда:</label>
+            <input type="text" name="departure" value="{{ data.departure or '' }}" required>
+            {% if errors.departure %}<span class="error">{{ errors.departure }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label>Пункт назначения:</label>
+            <input type="text" name="destination" value="{{ data.destination or '' }}" required>
+            {% if errors.destination %}<span class="error">{{ errors.destination }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label>Дата поездки:</label>
+            <input type="date" name="date" value="{{ data.date or '' }}" required>
+            {% if errors.date %}<span class="error">{{ errors.date }}</span>{% endif %}
+        </div>
+
+        <div class="field">
+            <label>
+                <input type="checkbox" name="insurance" {% if data.insurance %}checked{% endif %}>
+                Страховка (+150 ₽)
+            </label>
+        </div>
+
+        <button type="submit">Оформить билет</button>
+    </form>
+
+    <style>
+        .field {
+            margin-bottom: 16px;
+        }
+        .field label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 4px;
+        }
+        button {
+            padding: 10px 24px;
+            font-size: 1em;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
