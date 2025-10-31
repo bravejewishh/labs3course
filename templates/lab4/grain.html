@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block lab %}Заказ зерна{% endblock %}
+
+{% block main %}
+    {% if error %}
+        <div style="color: red; font-weight: bold;">{{ error }}</div>
+    {% else %}
+        <h1>Заказ успешно сформирован</h1>
+        <div>Вы заказали {{ grain_name }}.</div>
+        <div>Вес: {{ weight }} т.</div>
+        
+        {% if has_discount %}
+            <div style="color: green; font-weight: bold;">
+                Применена скидка 10% за большой объём
+            </div>
+            <div>Размер скидки: {{ discount }} руб</div>
+        {% endif %}
+        
+        <div style="font-size: 18px; font-weight: bold; margin-top: 10px;">
+            Сумма к оплате: {{ total_cost }} руб
+        </div>
+    {% endif %}
+
+    <div style="margin-top: 20px;">
+        <a href="/lab4/grain-form">оформить новый заказ</a>
+    </div>
+    <div>
+        <a href="/lab4">вернуться обратно</a>
+    </div>
+{% endblock %}
