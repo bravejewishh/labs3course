@@ -9,9 +9,16 @@ def lab():
 def login():
     return "Страница входа"
 
-@lab5.route('/lab5/register')
+@lab5.route('/lab5/register', methods = ['GET', 'POST'])
 def register():
-    return "Страница регистрации"
+    if request.method == 'GET':
+        return render_template('lab5/register.html')
+
+    login = request.form.get('login')
+    password = request.form.get('password')
+
+    if not (login or password):
+        return render_template('lab5/register.html', error='заполните все поля')
 
 @lab5.route('/lab5/list')
 def list_articles():
