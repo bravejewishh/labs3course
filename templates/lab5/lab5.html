@@ -1,40 +1,17 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}WEB-программирование, часть 2. Лабораторная работа 5{% endblock %}</title>
-</head>
-<body>
-    <header>
-        <h1>WEB-программирование, часть 2. Лабораторная работа 5</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('lab5.main') }}">menu</a></li>
-            </ul>
-        </nav>
-    </header>
+{% extends "base.html" %}
 
-    <main>
-        <aside>
-            <h2>База знаний</h2>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('lab5.list_articles') }}">Список статей</a></li>
-                    <li><a href="{{ url_for('lab5.create_article') }}">Создать статью</a></li>
-                    <li><a href="{{ url_for('lab5.login') }}">Войти</a></li>
-                    <li><a href="{{ url_for('lab5.register') }}">Регистрация</a></li>
-                </ul>
-            </nav>
-            <div>
-                Пользователь: <strong>Anonymous</strong>
-            </div>
-        </aside>
+{% block title %}WEB-программирование, часть 2. Лабораторная работа 5{% endblock %}
 
-        <section>
-            {% block content %}
-            {% endblock %}
-        </section>
-    </main>
-</body>
-</html>
+
+{% block main %}
+    <h2>База знаний</h2>
+    <ul>
+        <li><a href="/lab5/list">Список статей</a></li>
+        <li><a href="/lab5/create">Создать статью</a></li>
+        <li><a href="/lab5/login">Войти</a></li>
+        <li><a href="/lab5/register">Регистрация</a></li>
+    </ul>
+    <div>
+        Пользователь: <strong>Anonymous</strong>
+    </div>
+{% endblock %}
