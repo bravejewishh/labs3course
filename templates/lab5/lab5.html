@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}WEB-программирование, часть 2. Лабораторная работа 5{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>WEB-программирование, часть 2. Лабораторная работа 5</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('lab5.main') }}">menu</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <aside>
+            <h2>База знаний</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('lab5.list_articles') }}">Список статей</a></li>
+                    <li><a href="{{ url_for('lab5.create_article') }}">Создать статью</a></li>
+                    <li><a href="{{ url_for('lab5.login') }}">Войти</a></li>
+                    <li><a href="{{ url_for('lab5.register') }}">Регистрация</a></li>
+                </ul>
+            </nav>
+            <div>
+                Пользователь: <strong>Anonymous</strong>
+            </div>
+        </aside>
+
+        <section>
+            {% block content %}
+            {% endblock %}
+        </section>
+    </main>
+</body>
+</html>
