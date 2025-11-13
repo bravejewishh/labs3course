@@ -12,6 +12,10 @@
         <li><a href="/lab5/register">Регистрация</a></li>
     </ul>
     <div>
-        Пользователь: <strong>Anonymous</strong>
+        {% if login %}
+            Пользователь: <strong>{{ login }}</strong>
+        {% else %}
+            Пользователь: <strong>anonymous</strong>
+        {% endif %}
     </div>
 {% endblock %}

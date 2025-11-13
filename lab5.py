@@ -1,60 +1,125 @@
-from flask import Blueprint, render_template, request, redirect, session
+from flask import Blueprint, render_template, request, session, redirect, url_for
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from werkzeug.security import generate_password_hash
-lab5 = Blueprint('lab5', __name__)
+from werkzeug.security import check_password_hash, generate_password_hash
 
-@lab5.route('/lab5/')
-def lab():
-    return render_template('lab5/lab5.html')
+lab5 = Blueprint('lab5', __name__, template_folder='templates')
 
-@lab5.route('/lab5/login')
-def login():
-    return "Страница входа"
+# Функции для работы с БД - ДОЛЖНЫ БЫТЬ ПЕРЕД ВСЕМИ ROUTE'ами
+def db_connect():
+    try:
+        conn = psycopg2.connect(
+            host='127.0.0.1',
+            database='polina_penkova_knowledge_base',
+            user='polina_penkova_knowledge_base',
+            password='555',
+            port=5432
+        )
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        print("DEBUG: Подключение к БД успешно")
+        return conn, cur
+    except Exception as e:
+        print(f"DEBUG: Ошибка подключения к БД: {e}")
+        return None, None
+
+def db_close(conn, cur):
+    if conn and cur:
+        conn.commit()
+        cur.close()
+        conn.close()
+        print("DEBUG: Подключение к БД закрыто")
+
+# Теперь все route'ы - после определения функций
+
+@lab5.route('/lab5')
+def main():
+    return render_template('lab5/lab5.html', login=session.get('login'))
 
 @lab5.route('/lab5/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
         return render_template('lab5/register.html')
-
+    
     login = request.form.get('login')
     password = request.form.get('password')
-
+    
     if not (login and password):
         return render_template('lab5/register.html', error='Заполните все поля')
     
-    conn = psycopg2.connect(
-        host='127.0.0.1',
-        database='polina_penkova_knowledge_base',
-        user='polina_penkova_knowledge_base',
-        password='555'
-    )
-    cur = conn.cursor(cursor_factory=RealDictCursor)
-
-    cur.execute("SELECT login FROM users WHERE login=%s;", (login,))
-    if cur.fetchone():
-        cur.close()
-        conn.close()
+    conn, cur = db_connect()
+    
+    if conn is None or cur is None:
+        return render_template('lab5/register.html', error='Ошибка подключения к БД')
+    
+    try:
+        cur.execute("SELECT login FROM users WHERE login=%s;", (login,))
+        if cur.fetchone():
+            db_close(conn, cur)
+            return render_template('lab5/register.html', 
+                                 error='Такой пользователь уже существует')
+        
+        password_hash = generate_password_hash(password)
+        cur.execute("INSERT INTO users (login, password) VALUES (%s, %s);", 
+                    (login, password_hash))
+        
+        db_close(conn, cur)
+        return render_template('lab5/success.html', login=login)
+        
+    except Exception as e:
+        db_close(conn, cur)
         return render_template('lab5/register.html', 
-                             error='Такой пользователь уже существует')
-    
-    password_hash = generate_password_hash(password)
-    cur.execute("INSERT INTO users (login, password) VALUES (%s, %s);", 
-                (login, password_hash))
-    
+                             error=f'Ошибка при регистрации: {str(e)}')
 
-    conn.commit()
-    cur.close()
-    conn.close()
+@lab5.route('/lab5/login', methods=['GET', 'POST'])
+def login():  # Исправьте имя функции обратно
+    if request.method == 'GET':
+        return render_template('lab5/login.html')
     
-    return render_template('lab5/success.html', login=login)
-    if not (login or password):
-        return render_template('lab5/register.html', error='заполните все поля')
+    login = request.form.get('login')
+    password = request.form.get('password')
+    
+    print(f"DEBUG: Получены данные: login={login}, password={password}")
+    
+    if not (login and password):
+        return render_template('lab5/login.html', error='Заполните все поля')
+    
+    conn, cur = db_connect()
+    
+    if conn is None or cur is None:
+        return render_template('lab5/login.html', error='Ошибка подключения к БД')
+    
+    try:
+        # Поиск пользователя
+        cur.execute("SELECT * FROM users WHERE login=%s;", (login,))
+        user = cur.fetchone()
+        
+        print(f"DEBUG: Найден пользователь: {user}")
+        
+        if not user:
+            db_close(conn, cur)
+            return render_template('lab5/login.html', error='Логин и/или пароль неверны')
+        
+        # Проверка пароля
+        print(f"DEBUG: Проверяем пароль. Хеш в БД: {user['password']}")
+        
+        if not check_password_hash(user['password'], password):
+            db_close(conn, cur)
+            return render_template('lab5/login.html', error='Логин и/или пароль неверны')
+        
+        # Сохранение в сессии
+        session['login'] = login
+        session['user_id'] = user['id']
+        
+        db_close(conn, cur)
+        print("DEBUG: Успешный вход!")
+        return render_template('lab5/success_login.html', login=login)
+        
+    except Exception as e:
+        print(f"DEBUG: Ошибка при входе: {str(e)}")
+        db_close(conn, cur)
+        return render_template('lab5/login.html', error=f'Ошибка при входе в систему: {str(e)}')
 
-@lab5.route('/lab5/list')
-def list_articles():
-    return "Список статей"
-
-@lab5.route('/lab5/create')
-def create_article():
-    return "Создать статью"
+@lab5.route('/lab5/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('lab5.main'))
