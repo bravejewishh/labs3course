@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 5{% endblock %}
+
+{% block main %}
+<h1>Создание статьи</h1>
+
+<form method="post">
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; font-weight: bold;">
+            Название статьи:
+        </label>
+        <input type="text" name="title" maxlength="50" required 
+               style="width: 100%; max-width: 500px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; font-weight: bold;">
+            Текст статьи:
+        </label>
+        <textarea name="article_text" rows="10" required 
+                  style="width: 100%; max-width: 800px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+    </div>
+
+    <div>
+        <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Создать статью
+        </button>
+    </div>
+</form>
+{% endblock %}
