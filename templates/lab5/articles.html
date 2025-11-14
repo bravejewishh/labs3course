@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 5{% endblock %}
+
+{% block main %}
+    <h1>Статьи</h1>
+
+    {% for article in articles %}
+    <div style="border: 1px solid #d9aeea; padding: 15px; margin-bottom: 20px; border-radius: 5px; background-color: #f9f9f9;">
+        <h2 style="margin-top: 0; color: #672880;">{{ article['title'] }}</h2>
+        <div style="padding: 10px; background-color: rgb(241, 191, 234); border-left: 4px solid #570b85;">
+            <p style="margin: 0; white-space: pre-line;">{{ article['article_text'] }}</p>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
