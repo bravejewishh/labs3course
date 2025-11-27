@@ -2,25 +2,29 @@ from flask import Blueprint, render_template, request, session, redirect, url_fo
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from werkzeug.security import check_password_hash, generate_password_hash
+import sqlite3
+from os import path 
 
 lab5 = Blueprint('lab5', __name__, template_folder='templates')
 
 # Функции для работы с БД - ДОЛЖНЫ БЫТЬ ПЕРЕД ВСЕМИ ROUTE'ами
 def db_connect():
-    try:
+    if current_app.config['DB_TYPE'] == 'postgres':
         conn = psycopg2.connect(
             host='127.0.0.1',
             database='polina_penkova_knowledge_base',
             user='polina_penkova_knowledge_base',
-            password='555',
-            port=5432
+            password='555'
         )
         cur = conn.cursor(cursor_factory=RealDictCursor)
-        print("DEBUG: Подключение к БД успешно")
-        return conn, cur
-    except Exception as e:
-        print(f"DEBUG: Ошибка подключения к БД: {e}")
-        return None, None
+    else:
+        dir_path = path.dirname(path.realpath(__file__))
+        db_path = path.join(dir_path, "database.db")
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+    
+    return conn, cur
 
 def db_close(conn, cur):
     if conn and cur:
@@ -149,7 +153,7 @@ def list():
 
     conn, cur = db_connect()
     
-    cur.execute(f"SELECT id FROM users WHERE login='{login}';")
+    cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
     login_id = cur.fetchone()["id"]
 
     cur.execute(f"SELECT * FROM articles WHERE user_id='{login_id}';")
