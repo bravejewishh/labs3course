@@ -27,7 +27,10 @@ function fillFilmList() {
 
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Удалить';
-                deleteBtn.onclick = function() { deleteFilm(i, films[i].title_ru); };
+                deleteBtn.onclick = function() { 
+                    deleteFilm(i, films[i].title_ru); 
+                };
+
 
                 tdActions.appendChild(editBtn);
                 tdActions.appendChild(deleteBtn);
@@ -40,4 +43,29 @@ function fillFilmList() {
                 tbody.appendChild(tr);
             }
         });
+}
+
+function deleteFilm(id, title_ru) {
+    if (!confirm(`Вы действительно хотите удалить фильм "${title_ru}"?`)) {
+        return; // пользователь отменил
+    }
+
+    fetch(`/lab7/rest-api/films/${id}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (response.status === 204) {
+            // Успешное удаление — перезагружаем таблицу
+            fillFilmList();
+        } else if (response.status === 404) {
+            alert('Фильм не найден (возможно, уже удалён).');
+            fillFilmList(); // всё равно обновим список
+        } else {
+            alert('Ошибка при удалении фильма.');
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка сети:', error);
+        alert('Не удалось подключиться к серверу.');
+    });
 }
