@@ -25,6 +25,17 @@
     </script>
 
     <div>
-        <button onclick="addFilm()">Добавить фильм</button>
+        <button onclick="showModal()">Добавить фильм</button>
+    </div>
+
+    <div class="modal" id="filmModal">
+        <h3>Добавить фильм</h3>
+        <input type="hidden" id="filmId">
+        <label>Название (рус.):<br><input type="text" id="filmTitle"></label><br>
+        <label>Оригинальное название:<br><input type="text" id="filmTitleOrig"></label><br>
+        <label>Год выпуска:<br><input type="number" id="filmYear"></label><br>
+        <label>Описание:<br><textarea id="filmDescription"></textarea></label><br>
+        <button onclick="sendFilm()">ОК</button>
+        <button onclick="hideModal()">Отмена</button>
     </div>
 {%- endblock %}

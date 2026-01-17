@@ -69,3 +69,48 @@ function deleteFilm(id, title_ru) {
         alert('Не удалось подключиться к серверу.');
     });
 }
+
+function showModal() {
+    document.getElementById('filmId').value = '';
+    document.getElementById('filmTitle').value = '';
+    document.getElementById('filmTitleOrig').value = '';
+    document.getElementById('filmYear').value = '';
+    document.getElementById('filmDescription').value = '';
+    document.getElementById('filmModal').style.display = 'block';
+}
+
+function hideModal() {
+    document.getElementById('filmModal').style.display = 'none';
+}
+
+function sendFilm() {
+    const film = {
+        title: document.getElementById('filmTitleOrig').value,
+        title_ru: document.getElementById('filmTitle').value,
+        year: parseInt(document.getElementById('filmYear').value),
+        description: document.getElementById('filmDescription').value
+    };
+
+    const url = '/lab7/rest-api/films/';
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(film)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка при добавлении фильма');
+        }
+        return response.json();
+    })
+    .then(() => {
+        fillFilmList();
+        hideModal();   
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        alert('Не удалось добавить фильм');
+    });
+}
