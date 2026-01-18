@@ -36,6 +36,8 @@ else:
 
 db.init_app(app)
 
+from db.models import users, articles
+
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
 app.register_blueprint(lab3)
