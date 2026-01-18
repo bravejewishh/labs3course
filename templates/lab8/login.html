@@ -9,14 +9,20 @@
     <div style="color: red;">{{ error }}</div>
 {% endif %}
 
+<!-- lab8/templates/lab8/login.html -->
 <form method="post">
     <p>
         <label>Логин:</label><br>
-        <input type="text" name="login" required>
+        <input name="login" required>
     </p>
     <p>
         <label>Пароль:</label><br>
         <input type="password" name="password" required>
+    </p>
+    <p>
+        <label>
+            <input type="checkbox" name="remember"> Запомнить меня
+        </label>
     </p>
     <p>
         <button type="submit">Войти</button>

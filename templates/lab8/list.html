@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Мои статьи — Лабораторная 8{% endblock %}
+
+{% block main %}
+<h2>Мои статьи</h2>
+
+{% if not articles %}
+    <p>У вас пока нет статей.</p>
+{% else %}
+    {% for article in articles %}
+        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
+            <h3>{{ article.title }}</h3>
+            <p>
+                {{ article.article_text[:50] }}{% if article.article_text|length > 50 %}...{% endif %}
+            </p>
+            <a href="#">Просмотреть полностью</a>
+            &nbsp;|&nbsp;
+            <a href="/lab8/edit/{{ article.id }}">Редактировать</a>
+            &nbsp;|&nbsp;
+            <form method="post" action="/lab8/delete/{{ article.id }}" style="display: inline;">
+                <button type="submit" onclick="return confirm('Удалить статью?')">Удалить</button>
+            </form>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<p>
+    <a href="/lab8/create">Создать новую статью</a>
+</p>
+<p>
+    <a href="/lab8">Назад</a>
+</p>
+{% endblock %}
