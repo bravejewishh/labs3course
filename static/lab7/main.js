@@ -71,7 +71,6 @@ function deleteFilm(id, title_ru) {
 }
 
 function showModal() {
-    document.getElementById('filmId').value = '';
     document.getElementById('filmTitle').value = '';
     document.getElementById('filmTitleOrig').value = '';
     document.getElementById('filmYear').value = '';
@@ -84,6 +83,7 @@ function hideModal() {
 }
 
 function sendFilm() {
+    const id = document.getElementById('filmId').value;
     const film = {
         title: document.getElementById('filmTitleOrig').value,
         title_ru: document.getElementById('filmTitle').value,
@@ -91,26 +91,43 @@ function sendFilm() {
         description: document.getElementById('filmDescription').value
     };
 
-    const url = '/lab7/rest-api/films/';
+    let url, method;
+    if (id === '') {
+        url = '/lab7/rest-api/films/';
+        method = 'POST';
+    } else {
+        url = '/lab7/rest-api/films/' + id;
+        method = 'PUT';
+    }
+
     fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(film)
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Ошибка при добавлении фильма');
-        }
+        if (!response.ok) throw new Error();
         return response.json();
     })
     .then(() => {
         fillFilmList();
-        hideModal();   
+        hideModal();
     })
-    .catch(error => {
-        console.error('Ошибка:', error);
-        alert('Не удалось добавить фильм');
-    });
+    .catch(() => alert('Ошибка при сохранении'));
+}
+
+function editFilm(id) {
+    fetch(`/lab7/rest-api/films/${id}`)
+    .then(function (data) {
+        return data.json();
+    })
+
+    .then(function (film) {
+        document.getElementById('filmId').value = id;
+        document.getElementById('filmTitle').value = film.title_ru;
+        document.getElementById('filmTitleOrig').value = film.title;
+        document.getElementById('filmYear').value = film.year;
+        document.getElementById('filmDescription').value = film.description;
+        showModal(); // показываем модальное окно
+    })
 }
